@@ -1,5 +1,14 @@
 from django.http import HttpResponse
+from django.template import loader
+
+from .forms import CreateCd, CreateDvd, CreateBook
+from .models import Media, Book, Dvd, Cd, BoardGame
+
 
 def index(request):
-    return HttpResponse("Bonjour, bienvenue dans l'application bibliothécaire")
-# Create your views here.
+    menu = print("Bienvenu")
+    template = loader.get_template("librarian/index.html")
+    context = {"menu": menu, }
+    return HttpResponse(template.render(context, request))
+
+

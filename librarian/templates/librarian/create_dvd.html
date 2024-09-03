@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajout Dvd</title>
+</head>
+<body>
+<h1>Ajout d'un dvd</h1>
+<form action="" method="post" novalidate >
+    {% csrf_token %}
+    {{ createDvd.as_p }}
+    <input type="submit" value="Ajouter">
+</form>
+</body>
+</html>

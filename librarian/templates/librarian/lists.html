@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des médias</title>
+</head>
+<body>
+    <h1>Liste des médias</h1>
+    <h2>Livres :</h2>
+    <ul>
+        {% for book in books %}
+        <li>
+            Nom: {{book.name}}
+            Auteur: {{book.author}}
+            Date d'emprunt: {{book.borrowingDate}}
+            Disponibilité : {{book.availability}}
+            Emprunteur: {{book.borrower}}
+        </li>
+        {% endfor %}
+    </ul>
+    <h2>Dvds :</h2>
+    <ul>
+        {% for dvd in dvds %}
+        <li>
+            Nom: {{dvd.name}}
+            Réalisateur: {{dvd.director}}
+            Date d'emprunt: {{dvd.borrowingDate}}
+            Disponibilité : {{dvd.availability}}
+            Emprunteur: {{dvd.borrower}}
+        </li>
+        {% endfor %}
+    </ul>
+    <h2>Cds :</h2>
+    <ul>
+        {% for cd in cds %}
+        <li>
+            Nom: {{cd.name}}
+            Artiste: {{cd.auteur}}
+            Date d'emprunt: {{cd.borrowingDate}}
+            Disponibilité : {{cd.availability}}
+            Emprunteur: {{cd.borrower}}
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

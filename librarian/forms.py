@@ -13,5 +13,5 @@ class CreateDvd(forms.Form):
 
 class CreateCd(forms.Form):
     name = forms.CharField(required=True, label="Nom")
-    entertainer = forms.CharField(required=True, label="artiste")
+    entertainer = forms.CharField(required=True, label="Artiste")
 

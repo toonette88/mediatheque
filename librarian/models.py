@@ -3,9 +3,9 @@ from django.db import models
 
 class Media(models.Model):
     name = models.fields.CharField(max_length=150)
-    borrowingDate = models.fields.DateField
-    availability = models.fields.BooleanField(default="")
-    borrower = models.fields.CharField(max_length=150, default="")
+    borrowingDate = models.fields.DateField(null=True, blank=True)
+    availability = models.fields.BooleanField(default="True")
+    borrower = models.ForeignKey(Emprunteur, on_delete=models.SET_NULL, null=True, blank=True)
 
 
 class Book(Media):

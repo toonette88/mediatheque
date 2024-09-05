@@ -6,9 +6,9 @@
 </head>
 <body>
 <p>Ajouter un emprunt !</p>
-<form action="post" novalidate>
+<form action="" method="post" novalidate>
     {% csrf_token %}
-    {{ajoutemprunt}}
+    {{ createBorrowing }}
     <input type="submit" value="Ajouter">
 </form>
 </body>

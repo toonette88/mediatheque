@@ -1,7 +1,7 @@
 from django.urls import path
 
+import authentication.views
 from . import views as librarian_views
-
 
 urlpatterns = [
     path("", librarian_views.index, name='index'),

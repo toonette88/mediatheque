@@ -19,11 +19,12 @@ from django.urls import include, path
 
 
 from librarian.views import home
-from authentication.views import login_page
+from authentication.views import login_page, logout_user
 
 urlpatterns = [
     path("", home),
     path("login/", login_page),
+    path('logout/', logout_user),
     path("librarian/", include("librarian.urls")),
     path("borrower/", include("borrower.urls")),
     path('admin/', admin.site.urls),

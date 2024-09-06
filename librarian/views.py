@@ -1,8 +1,12 @@
 from django.shortcuts import render
 
-from .forms import CreateCd, CreateDvd, CreateBook, CreateBorrowing, CreateBorrower
-from .models import Book, Dvd, Cd, BoardGame, Media
+from .forms import CreateCd, CreateDvd, CreateBook, CreateBorrowing, CreateBorrower, UpdateBorrower
+from .models import Book, Dvd, Cd, BoardGame
 from borrower.models import Borrower
+
+
+def home(request):
+    return render(request, 'librarian/home.html')
 
 
 def index(request):
@@ -163,7 +167,7 @@ def add_borrower(request):
             borrower.save()
             borrowers = Borrower.objects.all()
             return render(request,
-                          'borrowers_list.html',
+                          'borrower/borrowers_list.html',
                           {'borrowers': borrowers})
     else:
         create_borrower = CreateBorrower()
@@ -172,3 +176,65 @@ def add_borrower(request):
                       {'createBorrower': CreateBorrower})
 
 
+def modification_borrower(request, id):
+    borrower = Borrower.objects.get(id=id)
+    if request.method == 'POST':
+        update_borrower = UpdateBorrower(request.POST, instance=borrower)
+        if update_borrower.is_valid():
+            update_borrower.save()
+            borrowers = Borrower.objects.all()
+            return render(request,
+                  'borrower/borrowers_list.html',
+                  {'borrowers': borrowers})
+    else:
+        update_borrower = UpdateBorrower(instance=borrower)
+        return render(request,
+                      'librarian/update_borrower.html',
+                      {'updateBorrower': UpdateBorrower, 'borrower': borrower})
+
+
+def deletion_borrower(request, id):
+    borrower = Borrower.objects.get(id=id)
+    if request.method == 'POST':
+        borrower.delete()
+        borrowers = Borrower.objects.all()
+        return render(request)
+
+
+def deletion_borrowing_book(request, id):
+    book = Book.objects.get(id=id)
+    if request.method == 'POST':
+        book.borrower.delete()
+        book.borrowingDate.delete()
+        book.availability = True
+        book.save()
+        books = Book.objects.all()
+        return render(request,
+                      'librarian/medias_list.html',
+                      {'books': books})
+
+
+def deletion_borrowing_dvd(request, id):
+    dvd = Dvd.objects.get(id=id)
+    if request.method == 'POST':
+        dvd.borrower.delete()
+        dvd.borrowingDate.delete()
+        dvd.availability = True
+        dvd.save()
+        dvds = Dvd.objects.all()
+        return render(request,
+                      'librarian/medias_list.html',
+                      {'dvd': dvds})
+
+
+def deletion_borrowing_cd(request, id):
+    cd = Cd.objects.get(id=id)
+    if request.method == 'POST':
+        cd.borrower.delete()
+        cd.borrowingDate.delete()
+        cd.availability = True
+        cd.save()
+        cds = Cd.objects.all()
+        return render(request,
+                      'librarian/medias_list.html',
+                      {'cd': cds})

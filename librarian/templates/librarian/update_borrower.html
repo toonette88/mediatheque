@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier {{ borrower.name }}</title>
+</head>
+<body>
+<p>Modifier {{ borrower.name }}</p>
+<form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ updateBorrower.as_p }}
+    <button type="submit">Modifier</button>
+    <button type="reset">Annuler</button>
+</form>
+<button><a href="/librarian/">Retour au menu</a></button>
+</body>
+</html>

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Liste des médias</title>
+    <title>Application Emprunteur</title>
 </head>
 <body>
+<h1>Application Emprunteur</h1>
     <h1>Liste des médias</h1>
     <h2>Livres :</h2>
     <ol>
@@ -15,11 +16,8 @@
                 <li>Auteur: {{ book.author }}</li>
                 {% if book.availability == True %}
                 <li>Disponible :  Oui</li>
-                <a href="{% url 'borrowing_book' book.id %}">Ajouter un emprunt</a>
                 {% else %}
                 <li>Disponible: Non </li>
-
-                <li>Emprunteur: {{ book.borrower }}</li>
                 <li>Date d'emprunt: {{ book.borrowingDate }}</li>
                 {% endif %}
             </ul>
@@ -36,10 +34,8 @@
                 <li>Réalisateur: {{ dvd.producer }}</li>
                 {% if dvd.availability == True %}
                 <li>Disponible :  Oui</li>
-                <a href="{% url 'borrowing_dvd' dvd.id %}">Ajouter un emprunt</a>
                 {% else %}
                 <li>Disponible: Non </li>
-                <li>Emprunteur: {{ dvd.borrower }}</li>
                 <li>Date d'emprunt: {{ dvd.borrowingDate }}</li>
                 {% endif %}
             </ul>
@@ -56,10 +52,8 @@
                 <li>Artiste: {{ cd.entertainer }}</li>
                 {% if cd.availability == True %}
                 <li>Disponible :  Oui</li>
-                <a href="{% url 'borrowing_cd' cd.id %}">Ajouter un emprunt</a>
                 {% else %}
                 <li>Disponible: Non </li>
-                <li>Emprunteur: {{ cd.borrower }}</li>
                 <li>Date d'emprunt: {{ cd.borrowingDate }}</li>
                 {% endif %}
             </ul>
@@ -76,8 +70,8 @@
                 <li> Créateur: {{ creator.boardgame }}</li>
             </ul>
         </li>
+
         {% endfor %}
     </ul>
-<button><a href="/librarian/">Retour au menu</a></button>
 </body>
 </html>

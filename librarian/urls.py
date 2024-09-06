@@ -13,6 +13,5 @@ urlpatterns = [
     path('create_borrowing_cd/<int:id>', librarian_views.add_borrowing_cd, name='borrowing_cd'),
     path('create_borrowing_dvd/<int:id>', librarian_views.add_borrowing_dvd, name='borrowing_dvd'),
     path('create_borrowing_book/<int:id>', librarian_views.add_borrowing_book, name='borrowing_book'),
-    path('create_borrower', librarian_views.create_borrower, name='create_borrower'),
-
+    path('create_borrower', librarian_views.add_borrower, name='create_borrower'),
 ]

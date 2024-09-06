@@ -16,10 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+
+
 from librarian.views import home
+from authentication.views import login_page
 
 urlpatterns = [
     path("", home),
+    path("login/", login_page),
     path("librarian/", include("librarian.urls")),
     path("borrower/", include("borrower.urls")),
     path('admin/', admin.site.urls),

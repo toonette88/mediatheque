@@ -3,27 +3,33 @@ from borrower.models import Borrower
 
 
 class Media(models.Model):
-    name = models.fields.CharField(max_length=150)
-    borrowingDate = models.fields.DateField(null=True, blank=True)
-    availability = models.fields.BooleanField(default="True")
-    borrower = models.ForeignKey(Borrower, on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=50)
+    borrowingDate = models.DateField(null=True, blank=True)
+    availability = models.BooleanField(default="True")
+    borrower = models.ForeignKey(Borrower, on_delete=models.SET_DEFAULT, null=True, blank=True, default="")
+
+    def __str__(self):
+        return self.name
 
 
 class Book(Media):
-    author = models.fields.CharField(max_length=150)
+    author = models.CharField(max_length=50)
 
 
 class Dvd(Media):
-    producer = models.fields.CharField(max_length=150)
+    producer = models.CharField(max_length=50)
 
 
 class Cd(Media):
-    entertainer = models.fields.CharField(max_length=150)
+    entertainer = models.CharField(max_length=50)
 
 
 class BoardGame (models.Model):
-    name = models.fields.CharField(max_length=150)
-    creator = models.fields.CharField(max_length=150)
+    name = models.CharField(max_length=50)
+    creator = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
 
 
 

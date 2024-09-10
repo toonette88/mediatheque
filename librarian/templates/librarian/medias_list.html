@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Liste des médias</title>
-</head>
-<body>
-    <h1>Liste des médias</h1>
-    <h2>Livres :</h2>
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Liste des médias</h2>
+    <h3>Livres :</h3>
     <ol>
         {% for book in books %}
         <li>
@@ -18,7 +13,7 @@
                 <a href="{% url 'borrowing_book' book.id %}">Ajouter un emprunt</a>
                 {% else %}
                 <li>Disponible: Non </li>
-
+                <a href="{% url 'delete_book' book.id %}">Supprimer un emprunt</a>
                 <li>Emprunteur: {{ book.borrower }}</li>
                 <li>Date d'emprunt: {{ book.borrowingDate }}</li>
                 {% endif %}
@@ -27,7 +22,7 @@
         </li>
         {% endfor %}
     </ol>
-    <h2>Dvds :</h2>
+    <h3>Dvds :</h3>
     <ul>
         {% for dvd in dvds %}
         <li>
@@ -47,7 +42,7 @@
         </li>
         {% endfor %}
     </ul>
-    <h2>Cds :</h2>
+    <h3>Cds :</h3>
     <ul>
         {% for cd in cds %}
         <li>
@@ -67,17 +62,16 @@
         </li>
         {% endfor %}
     </ul>
-    <h2>Jeu de plateau</h2>
+    <h3>Jeu de plateau:</h3>
     <ul>
-        {% for boardgame in boardgames %}
+        {% for boardGame in boardGames %}
         <li>
             <ul>
-                <li> Nom du jeu: {{ name.boardgame }}</li>
-                <li> Créateur: {{ creator.boardgame }}</li>
+                <li> Nom du jeu: {{ name.boardGame }}</li>
+                <li> Créateur: {{ creator.boardGame }}</li>
             </ul>
         </li>
         {% endfor %}
     </ul>
-<button><a href="/librarian/">Retour au menu</a></button>
-</body>
-</html>
+    <button><a href="/librarian/">Retour au menu</a></button>
+{% endblock content %}

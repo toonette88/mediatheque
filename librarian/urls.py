@@ -1,6 +1,5 @@
 from django.urls import path
 
-import authentication.views
 from . import views as librarian_views
 
 urlpatterns = [
@@ -14,4 +13,8 @@ urlpatterns = [
     path('create_borrowing_dvd/<int:id>', librarian_views.add_borrowing_dvd, name='borrowing_dvd'),
     path('create_borrowing_book/<int:id>', librarian_views.add_borrowing_book, name='borrowing_book'),
     path('create_borrower', librarian_views.add_borrower, name='create_borrower'),
+    path('delete_media/book/<int:id>', librarian_views.deletion_borrowing_book, name='delete_book'),
+    path('delete_media/dvd/<int:id>', librarian_views.deletion_borrowing_dvd, name='delete_dvd'),
+    path('delete_media/cd/<int:id>', librarian_views.deletion_borrowing_cd, name='delete_cd'),
+
 ]

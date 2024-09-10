@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Ajouter un emprunt !</h2>
+    <h2>Supprimer un emprunt !</h2>
     <form action="" method="post" novalidate>
         {% csrf_token %}
         {{ createBorrowing }}
-        <input type="submit" value="Ajouter">
+        <input type="submit" value="Supprimer">
     </form>
 {% endblock content %}2024
 

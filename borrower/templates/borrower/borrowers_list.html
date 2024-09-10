@@ -8,9 +8,8 @@
 <h1>Liste des emprunteurs</h1>
 <ul>
     {% for borrower in borrowers %}
-    <li>Nom: {{ borrower.name }}</li>
+    <li>Emprunteur: {{ borrower.name }} </li>
     <li><a href="borrower/update_borrower/{{ borrower.id }}">Modifier le nom</a></li>
-    <li><a href=""></a></li>
     {% endfor %}
 </ul>
 <button><a href="/librarian/">Retour au menu</a></button>

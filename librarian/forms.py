@@ -1,7 +1,8 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
-from django.contrib.auth.models import User
 from borrower.models import Borrower
+from librarian.models import Media
 
 
 class CreateBook(forms.Form):
@@ -20,17 +21,38 @@ class CreateCd(forms.Form):
 
 
 class UpdateBorrower(forms.ModelForm):
-    name = forms.CharField(label="Nom Prénom ",
-                           required=True,
-                           widget=forms.TextInput(attrs={'class': 'form-control'}))
+    name = forms.CharField(label="Nom",
+                           required=True,)
+
     class Meta:
         model = Borrower
         fields = ['name']
 
 
-class CreateBorrowing(forms.Form):
-    borrower = forms.CharField(label="Emprunteur")
-    borrowingDate = forms.DateField(label="Date d'emprunt")
+class CreateBorrowing(forms.ModelForm):
+    class Meta:
+        model = Media
+        fields = (
+            "borrower",
+            "borrowingDate",
+        )
+        labels = {
+            'borrower' : 'Emprunteur',
+            'borrowingDate' : "Date d'emprunt"
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['borrowingDate'].widget.attrs['class'] = 'datePicker'
+
+    def clean(self):
+        cleaned_data = super().clean()
+        borrower_name = cleaned_data.get('borrower')
+
+        try:
+            borrower = Borrower.objects.get(name=borrower_name)
+        except Borrower.DoesNotExist:
+            raise ValidationError(f"Emprunteur {borrower_name} n'existe pas.")
 
 
 class CreateBorrower(forms.Form):

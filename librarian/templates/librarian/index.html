@@ -1,23 +1,17 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Appli bibliothécaire</title>
-</head>
-<body>
-<h1>Application Bibliothécaire</h1>
+{% extends 'base.html' %}
+{% block content %}
+<h2>Application Bibliothécaire</h2>
 <div>
-    <h2>Voici les différentes tâches possibles : </h2>
-    <h3>Emprunteurs</h3>
+    <h3>Voici les différentes tâches possibles : </h3>
+    <h4>Emprunteurs</h4>
     <ul>
         <li><a href="{% url 'create_borrower' %}">Créer un membre-emprunteur</a></li>
         <li><a href="{% url 'borrowers_list' %}">Afficher la liste des membres</a></li>
     </ul>
-    <h3>Médias</h3>
+    <h4>Médias</h4>
     <ul>
         <li><a href="{% url 'medias_list' %}">Afficher la liste des médias</a></li>
         <li><a href="{% url 'create_media' %}">Ajouter un media</a></li>
     </ul>
 </div>
-</body>
-</html>
+{% endblock content %}

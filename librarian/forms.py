@@ -1,59 +1,44 @@
-from django import forms
+from django.forms import ModelForm
+from dal import autocomplete
 from django.core.exceptions import ValidationError
 
 from borrower.models import Borrower
-from librarian.models import Media
+from librarian.models import Book, Dvd, Cd, Borrowing
 
 
-class CreateBook(forms.Form):
-    name = forms.CharField(label="Nom")
-    author = forms.CharField(label="Auteur")
+class CreateBook(ModelForm):
+    class Meta:
+        model = Book
+        fields = ("name", "author")
+
+class CreateDvd(ModelForm):
+    class Meta:
+        model = Dvd
+        fields = ("name", "producer")
 
 
-class CreateDvd(forms.Form):
-    name = forms.CharField(label="Nom")
-    producer = forms.CharField(label='Réalisateur')
+class CreateCd(ModelForm):
+    class Meta:
+        model = Cd
+        fields = ("name", "entertainer")
 
 
-class CreateCd(forms.Form):
-    name = forms.CharField(label="Nom")
-    entertainer = forms.CharField(label="Artiste")
-
-
-class UpdateBorrower(forms.ModelForm):
-    name = forms.CharField(label="Nom",
-                           required=True,)
-
+class UpdateBorrower(ModelForm):
     class Meta:
         model = Borrower
         fields = ['name']
 
 
-class CreateBorrowing(forms.ModelForm):
+class CreateBorrowing(ModelForm):
     class Meta:
-        model = Media
-        fields = (
-            "borrower",
-            "borrowingDate",
-        )
-        labels = {
-            'borrower' : 'Emprunteur',
-            'borrowingDate' : "Date d'emprunt"
+        model = Borrowing
+        fields = ('borrower',)
+        widgets = {
+            'borrower': autocomplete.ModelSelect2(url='borrower_autocomplete')
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['borrowingDate'].widget.attrs['class'] = 'datePicker'
 
-    def clean(self):
-        cleaned_data = super().clean()
-        borrower_name = cleaned_data.get('borrower')
-
-        try:
-            borrower = Borrower.objects.get(name=borrower_name)
-        except Borrower.DoesNotExist:
-            raise ValidationError(f"Emprunteur {borrower_name} n'existe pas.")
-
-
-class CreateBorrower(forms.Form):
-    name = forms.CharField(label="Nom Prénom ")
+class CreateBorrower(ModelForm):
+    class Meta:
+        model = Borrower
+        fields = ['name']

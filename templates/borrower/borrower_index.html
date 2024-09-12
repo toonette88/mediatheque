@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Application Emprunteur</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 <h1>Application Emprunteur</h1>
     <h1>Liste des médias</h1>
     <h2>Livres :</h2>
@@ -73,5 +68,4 @@
 
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock content %}

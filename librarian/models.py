@@ -1,31 +1,47 @@
 from django.db import models
+from django.utils import timezone
+
 from borrower.models import Borrower
 
 
 class Media(models.Model):
-    name = models.fields.CharField(max_length=150)
-    borrowingDate = models.fields.DateField(null=True, blank=True)
-    availability = models.fields.BooleanField(default="True")
-    borrower = models.ForeignKey(Borrower, on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(
+        max_length=50,
+        verbose_name="Titre")
+    availability = models.BooleanField(default="True")
+
+    def __str__(self):
+        return self.name
 
 
 class Book(Media):
-    author = models.fields.CharField(max_length=150)
+    author = models.CharField(max_length=50)
 
 
 class Dvd(Media):
-    producer = models.fields.CharField(max_length=150)
+    producer = models.CharField(max_length=50)
 
 
 class Cd(Media):
-    entertainer = models.fields.CharField(max_length=150)
+    entertainer = models.CharField(max_length=50)
+
+
+class Borrowing(models.Model):
+    media = models.ForeignKey(Book,
+                              on_delete=models.PROTECT,
+                              null=True, blank=True,
+                              default="")
+    borrower = models.ForeignKey(Borrower, on_delete=models.PROTECT, default="", null=True, blank=True)
+    borrowingDate = models.DateField(default=timezone.now)
+
+
+def __str__(self):
+    return f"{self.get_media_display()}{self.nom}"
 
 
 class BoardGame (models.Model):
-    name = models.fields.CharField(max_length=150)
-    creator = models.fields.CharField(max_length=150)
+    name = models.CharField(max_length=50)
+    creator = models.CharField(max_length=50)
 
-
-
-
-
+    def __str__(self):
+        return self.name

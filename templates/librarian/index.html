@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Application Bibliothécaire</h2>
+<div>
+    <h3>Voici les différentes tâches possibles : </h3>
+    <h4>Emprunteurs</h4>
+    <ul>
+        <li><a href="{% url 'create_borrower' %}">Créer un membre-emprunteur</a></li>
+        <li><a href="{% url 'borrowers_list' %}">Afficher la liste des membres</a></li>
+    </ul>
+    <h4>Médias</h4>
+    <ul>
+        <li><a href="{% url 'medias_list' %}">Afficher la liste des médias</a></li>
+        <li><a href="{% url 'create_media_choice' %}">Ajouter un media</a></li>
+    </ul>
+</div>
+{% endblock content %}

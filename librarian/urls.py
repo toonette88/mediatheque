@@ -1,17 +1,24 @@
+from django.contrib.auth.decorators import login_required
 from django.urls import path
+from django.views.generic import DetailView
 
-import authentication.views
-from . import views as librarian_views
+from borrower.models import Borrower
+from librarian.views import (medias_list, create_media_choice, CreateBorrower, CreateBorrowing, index, UpdateBorrower,
+                             DeleteBorrower, BorrowerAutocomplete)
 
 urlpatterns = [
-    path("", librarian_views.index, name='index'),
-    path('medias_list', librarian_views.medias_list, name='medias_list'),
-    path('create_media', librarian_views.create_media, name='create_media'),
-    path('create_media/book', librarian_views.add_book, name='create_media/book'),
-    path('create_media/dvd', librarian_views.add_dvd, name='create_media/dvd'),
-    path('create_media/cd', librarian_views.add_cd, name='create_media/cd'),
-    path('create_borrowing_cd/<int:id>', librarian_views.add_borrowing_cd, name='borrowing_cd'),
-    path('create_borrowing_dvd/<int:id>', librarian_views.add_borrowing_dvd, name='borrowing_dvd'),
-    path('create_borrowing_book/<int:id>', librarian_views.add_borrowing_book, name='borrowing_book'),
-    path('create_borrower', librarian_views.add_borrower, name='create_borrower'),
+    path("", index, name='index'),
+    path("medias_list", medias_list, name='medias_list'),
+    path("create_media_choice", create_media_choice, name='create_media_choice'),
+    path("create_borrower", CreateBorrower.as_view(), name='create_borrower'),
+    path("borrowers_list/update/<int:pk>/", UpdateBorrower.as_view(), name='update_borrower'),
+    path("borrower/autocomplete/",
+         login_required(BorrowerAutocomplete.as_view()),
+         name='borrower_autocomplete',
+         ),
+    path("create_borrowing/<int:pk>", CreateBorrowing.as_view(), name='create_borrowing'),
+    path("borrower/<int:pk>/",
+         DetailView.as_view(model=Borrower, template_name="borrower/borrower_detail.html"),
+         name="detail_borrower"),
+    path("borrowers_list/delete/<int:pk>", DeleteBorrower.as_view(), name='deletion_borrower')
 ]

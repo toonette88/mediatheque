@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Ajout d'un Dvd</h2>
+    <form action="" method="post" novalidate >
+        {% csrf_token %}
+        {{ createDvd.as_p }}
+        <input type="submit" value="Ajouter">
+    </form>
+{% endblock content %}

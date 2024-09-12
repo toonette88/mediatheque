@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h2 class="card-title">Fiche Emprunteur</h2>
+    <h3 class="card-subtitle mb-2 text-muted">Identité: {{ borrower.name }}</h3>
+    <p class="card-text"></p>
+    <a href="{% url 'update_borrower' borrower.id %}" class="card-link">Modifier</a>
+    <a href="{% url 'deletion_borrower' borrower.id %}">Supprimer</a>
+    <a href="{% url 'borrowers_list' %}" class="card-link">Retour</a>
+  </div>
+</div>
+
+{% endblock content %}

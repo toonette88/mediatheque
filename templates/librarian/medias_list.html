@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Liste des médias</h2>
+    <h3>Livres :</h3>
+    {% if books %}
+        <ol>
+            {% for book in books %}
+            <li>
+                <ul>
+                    <li>Nom: {{ book.name }}</li>
+                    <li>Auteur: {{ book.author }}</li>
+                    {% if book.availability == True %}
+                        <li>Disponible :  Oui</li>
+                        <a href="{% url 'create_borrowing' book.id %}">Ajouter un emprunt</a>
+                    {% else %}
+                        <li>Disponible: Non </li>
+                        {% for borrowing in borrowings %}
+                            {% if borrowing.media == book.name %}
+                                <li>Emprunteur: {{ borrowing.borrower }}</li>
+                                <li>Date d'emprunt: {{ borrowing.borrowingDate }}</li>
+                                <a href="">Supprimer un emprunt</a>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                <br>
+            </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <p>Il n'y a pas de livres</p>
+    {% endif %}
+    <h3>Dvds :</h3>
+    {% if dvds %}
+        <ul>
+            {% for dvd in dvds %}
+            <li>
+                <ul>
+                    <li>Nom: {{ dvd.name }}</li>
+                    <li>Réalisateur: {{ dvd.producer }}</li>
+                    {% if dvd.availability == True %}
+                    <li>Disponible :  Oui</li>
+                    <a href="{% url 'create_borrowing' dvd.id %}" >Ajouter un emprunt</a>
+                    {% else %}
+                    <li>Disponible: Non </li>
+                    <li>Emprunteur: {{ dvd.borrower }}</li>
+                    <li>Date d'emprunt: {{ dvd.borrowingDate }}</li>
+                    {% endif %}
+                </ul>
+                <br>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Il n'y a aucun dvd</p>
+    {% endif %}
+    <h3>Cds :</h3>
+    {% if cds %}
+        <ul>
+            {% for cd in cds %}
+            <li>
+                <ul>
+                    <li>Nom: {{ cd.name }}</li>
+                    <li>Artiste: {{ cd.entertainer }}</li>
+                    {% if cd.availability == True %}
+                    <li>Disponible :  Oui</li>
+                    <a href="{% url 'create_borrowing' cd.id %}">Ajouter un emprunt</a>
+                    {% else %}
+                    <li>Disponible: Non </li>
+                    <li>Emprunteur: {{ cd.borrower }}</li>
+                    <li>Date d'emprunt: {{ cd.borrowingDate }}</li>
+                    {% endif %}
+                </ul>
+                <br>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Il n'y a aucun cd</p>
+    {% endif %}
+    <h3>Jeux de plateau:</h3>
+    {% if boardgames %}
+        <ul>
+            {% for boardGame in boardGames %}
+                <li>
+                    <ul>
+                        <li> Nom du jeu: {{ name.boardGame }}</li>
+                        <li> Créateur: {{ creator.boardGame }}</li>
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Il n'y a aucun jeux</p>
+    {% endif %}
+    <button><a href="/librarian/">Retour au menu</a></button>
+{% endblock content %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Liste des emprunteurs</h2>
+<ul>
+    {% for borrower in borrowers %}
+    <li>Emprunteur: <a href="{% url 'detail_borrower' borrower.id %}">{{ borrower.name }}</a> </li>
+    <br>
+    {% endfor %}
+</ul>
+<button><a href="/librarian/">Retour au menu</a></button>
+{% endblock content %}

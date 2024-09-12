@@ -1,37 +1,44 @@
-from django import forms
+from django.forms import ModelForm
+from dal import autocomplete
+from django.core.exceptions import ValidationError
 
-from django.contrib.auth.models import User
 from borrower.models import Borrower
+from librarian.models import Book, Dvd, Cd, Borrowing
 
 
-class CreateBook(forms.Form):
-    name = forms.CharField(label="Nom")
-    author = forms.CharField(label="Auteur")
+class CreateBook(ModelForm):
+    class Meta:
+        model = Book
+        fields = ("name", "author")
+
+class CreateDvd(ModelForm):
+    class Meta:
+        model = Dvd
+        fields = ("name", "producer")
 
 
-class CreateDvd(forms.Form):
-    name = forms.CharField(label="Nom")
-    producer = forms.CharField(label='Réalisateur')
+class CreateCd(ModelForm):
+    class Meta:
+        model = Cd
+        fields = ("name", "entertainer")
 
 
-class CreateCd(forms.Form):
-    name = forms.CharField(label="Nom")
-    entertainer = forms.CharField(label="Artiste")
-
-
-class UpdateBorrower(forms.ModelForm):
-    name = forms.CharField(label="Nom Prénom ",
-                           required=True,
-                           widget=forms.TextInput(attrs={'class': 'form-control'}))
+class UpdateBorrower(ModelForm):
     class Meta:
         model = Borrower
         fields = ['name']
 
 
-class CreateBorrowing(forms.Form):
-    borrower = forms.CharField(label="Emprunteur")
-    borrowingDate = forms.DateField(label="Date d'emprunt")
+class CreateBorrowing(ModelForm):
+    class Meta:
+        model = Borrowing
+        fields = ('borrower',)
+        widgets = {
+            'borrower': autocomplete.ModelSelect2(url='borrower_autocomplete')
+        }
 
 
-class CreateBorrower(forms.Form):
-    name = forms.CharField(label="Nom Prénom ")
+class CreateBorrower(ModelForm):
+    class Meta:
+        model = Borrower
+        fields = ['name']

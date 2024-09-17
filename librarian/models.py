@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 from borrower.models import Borrower
 
@@ -7,8 +6,9 @@ from borrower.models import Borrower
 class Media(models.Model):
     name = models.CharField(
         max_length=50,
-        verbose_name="Titre")
+        verbose_name="Titre", primary_key=True)
     availability = models.BooleanField(default="True")
+    borrower = models.ForeignKey(Borrower, null=True, blank=True, on_delete=models.SET_NULL, related_name='Media')
 
     def __str__(self):
         return self.name
@@ -27,16 +27,9 @@ class Cd(Media):
 
 
 class Borrowing(models.Model):
-    media = models.ForeignKey(Book,
-                              on_delete=models.PROTECT,
-                              null=True, blank=True,
-                              default="")
-    borrower = models.ForeignKey(Borrower, on_delete=models.PROTECT, default="", null=True, blank=True)
-    borrowingDate = models.DateField(default=timezone.now)
-
-
-def __str__(self):
-    return f"{self.get_media_display()}{self.nom}"
+    media = models.ForeignKey(Media, on_delete=models.DO_NOTHING)
+    borrower = models.ForeignKey(Borrower, on_delete=models.DO_NOTHING)
+    borrowingDate = models.DateTimeField(auto_now_add=True)
 
 
 class BoardGame (models.Model):

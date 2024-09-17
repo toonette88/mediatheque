@@ -11,14 +11,14 @@
                     <li>Auteur: {{ book.author }}</li>
                     {% if book.availability == True %}
                         <li>Disponible :  Oui</li>
-                        <a href="{% url 'create_borrowing' book.id %}">Ajouter un emprunt</a>
+                        <a href="{% url 'create_borrowing' book.name %}">Ajouter un emprunt</a>
                     {% else %}
                         <li>Disponible: Non </li>
                         {% for borrowing in borrowings %}
-                            {% if borrowing.media == book.name %}
+                            {% if borrowing.media.name == book.name %}
                                 <li>Emprunteur: {{ borrowing.borrower }}</li>
                                 <li>Date d'emprunt: {{ borrowing.borrowingDate }}</li>
-                                <a href="">Supprimer un emprunt</a>
+                                <a href="{% url 'delete_borrowing' book.name %}">Supprimer un emprunt</a>
                             {% endif %}
                         {% endfor %}
                     {% endif %}
@@ -40,7 +40,7 @@
                     <li>Réalisateur: {{ dvd.producer }}</li>
                     {% if dvd.availability == True %}
                     <li>Disponible :  Oui</li>
-                    <a href="{% url 'create_borrowing' dvd.id %}" >Ajouter un emprunt</a>
+                    <a href="{% url 'create_borrowing' dvd.name %}" >Ajouter un emprunt</a>
                     {% else %}
                     <li>Disponible: Non </li>
                     <li>Emprunteur: {{ dvd.borrower }}</li>
@@ -64,7 +64,7 @@
                     <li>Artiste: {{ cd.entertainer }}</li>
                     {% if cd.availability == True %}
                     <li>Disponible :  Oui</li>
-                    <a href="{% url 'create_borrowing' cd.id %}">Ajouter un emprunt</a>
+                    <a href="{% url 'create_borrowing' cd.name %}">Ajouter un emprunt</a>
                     {% else %}
                     <li>Disponible: Non </li>
                     <li>Emprunteur: {{ cd.borrower }}</li>

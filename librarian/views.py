@@ -1,11 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
 
 from dal import autocomplete
-from .forms import CreateCd, CreateDvd, CreateBook, CreateBorrowing, CreateBorrower, UpdateBorrower
+from .forms import CreateBorrowing, CreateBorrower, CreateBook, CreateCd, CreateDvd
 from .models import Book, Dvd, Cd, BoardGame, Borrowing, Media
 from borrower.models import Borrower
 
@@ -35,74 +35,87 @@ def medias_list(request):
     dvds = Dvd.objects.all()
     cds = Cd.objects.all()
     boardgames = BoardGame.objects.all()
-    borrowing = Borrowing.objects.all()
+    borrowings = Borrowing.objects.all()
     return render(request,
                   'librarian/medias_list.html',
-                  {'books': books, 'dvds': dvds, 'cds': cds, 'boardgames': boardgames})
+                  {'books': books, 'dvds': dvds, 'cds': cds, 'boardgames': boardgames, 'borrowings': borrowings})
 
 
-class CreateBook(CreateView, LoginRequiredMixin):
+class CreateBook(LoginRequiredMixin, CreateView):
     model = Book
+    form_class = CreateBook
     template_name = 'librarian/create_book.html'
 
     def get_success_url(self):
-        return reverse_lazy("librarian/medias_list.html")
+        return reverse_lazy("medias_list")
 
 
-class CreateDvd(CreateView, LoginRequiredMixin):
+class CreateDvd(LoginRequiredMixin, CreateView):
     model = Dvd
+    form_class = CreateDvd
     template_name = 'librarian/create_dvd.html'
 
     def get_success_url(self):
-        return reverse_lazy("librarian/medias_list.html")
+        return reverse_lazy("medias_list")
 
 
-class CreateCd(CreateView, LoginRequiredMixin):
+class CreateCd(LoginRequiredMixin, CreateView):
     model = Cd
+    form_class = CreateCd
     template_name = 'librarian/create_cd.html'
 
     def get_success_url(self):
-        return reverse_lazy("librarian/medias_list.html")
+        return reverse_lazy("medias_list")
 
 
-class CreateBorrowing(CreateView, LoginRequiredMixin):
-    model = Borrowing
-    form_class = CreateBorrowing
-    template_name = 'librarian/create_borrowing.html'
+def create_borrowing(request, name):
+    media = Media.objects.get(name=name)
+    borrowing = Borrowing()
+    if request.method == 'POST':
+        form = CreateBorrowing(request.POST)
+        if form.is_valid():
+            borrowing.media = media
+            borrowing.borrower = form.cleaned_data['borrower']
+            media.borrower = form.cleaned_data['borrower']
+            media.availability = False
+            borrowing.save()
+            media.save()
+            return redirect('medias_list')
+    else:
+        form = CreateBorrowing()
+    return render(request, 'librarian/create_borrowing.html',
+                  {'form': form})
 
-    def get_success_url(self):
-        return reverse_lazy("librarian/medias_list.html", kwargs={"pk": self.objects.id})
+
+def delete_borrowing(request, name):
+    media = Media.objects.get(name=name)
+    borrowing = Borrowing.objects.get(media=media)
+    borrowing.delete()
+    media.availability = True
+    media.save()
+    media.borrower.delete()
+    return redirect('medias_list')
 
 
-class CreateBorrower(CreateView, LoginRequiredMixin):
+class CreateBorrower(LoginRequiredMixin, CreateView):
     model = Borrower
     form_class = CreateBorrower
     template_name = "librarian/create_borrower.html"
 
     def get_success_url(self):
-        return reverse_lazy("detail_borrower", kwargs={"pk": self.object.id})
+        return reverse_lazy("detail_borrower", kwargs={"pk": self.object.name})
 
 
-class UpdateBorrower(UpdateView, LoginRequiredMixin):
+class UpdateBorrower(LoginRequiredMixin, UpdateView):
     model = Borrower
     form_class = CreateBorrower
     template_name = "librarian/create_borrower.html"
 
     def get_success_url(self):
-        return reverse_lazy("detail_borrower", kwargs={"pk": self.object.id})
+        return reverse_lazy("detail_borrower", kwargs={"pk": self.object.name})
 
 
-class BorrowerAutocomplete(autocomplete.Select2QuerySetView):
-    def get_queryset(self):
-        if not self.request.user.is_authenticated:
-            return Borrower.objects.none()
-        qs = Borrower.objects.all()
-        if self.q:
-            qs = qs.filter(name_istartswith=self.q)
-        return qs
-
-
-class DeleteBorrower(DeleteView, LoginRequiredMixin):
+class DeleteBorrower(LoginRequiredMixin, DeleteView,):
     model = Borrower
 
     def get_success_url(self):

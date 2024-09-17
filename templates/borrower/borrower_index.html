@@ -10,10 +10,14 @@
                 <li>Nom: {{ book.name }}</li>
                 <li>Auteur: {{ book.author }}</li>
                 {% if book.availability == True %}
-                <li>Disponible :  Oui</li>
+                    <li>Disponible :  Oui</li>
                 {% else %}
-                <li>Disponible: Non </li>
-                <li>Date d'emprunt: {{ book.borrowingDate }}</li>
+                    <li>Disponible: Non </li>
+                    {% for borrowing in borrowings %}
+                        {% if borrowing.media.name == book.name %}
+                            <li>Date d'emprunt: {{ borrowing.borrowingDate }}</li>
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
             </ul>
             <br>

@@ -4,10 +4,17 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DeleteView
 
-from dal import autocomplete
 from .forms import CreateBorrowing, CreateBorrower, CreateBook, CreateCd, CreateDvd
 from .models import Book, Dvd, Cd, BoardGame, Borrowing, Media
 from borrower.models import Borrower
+
+import logging
+
+logging.basicConfig(filename="logfile.log",
+                    format='%(asctime)s-%(levelname)s-%(message)s',
+                    datefmt='%d-%b-%y%H:%M:%S')
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 def home(request):
@@ -103,7 +110,7 @@ class CreateBorrower(LoginRequiredMixin, CreateView):
     template_name = "librarian/create_borrower.html"
 
     def get_success_url(self):
-        return reverse_lazy("detail_borrower", kwargs={"pk": self.object.name})
+        return reverse_lazy('borrowers_list')
 
 
 class UpdateBorrower(LoginRequiredMixin, UpdateView):

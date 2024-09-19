@@ -1,6 +1,4 @@
 from django.forms import ModelForm
-from django.core.exceptions import ValidationError
-
 
 from borrower.models import Borrower
 from librarian.models import Book, Dvd, Cd, Borrowing

@@ -126,3 +126,14 @@ LOGIN_URL = 'login'
 
 LOGIN_REDIRECT_URL = 'index'
 
+LOGGING = {
+    "version":1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": "general.log",
+        },
+    },
+}
+

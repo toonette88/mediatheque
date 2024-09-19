@@ -1,9 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
-from django.utils import timezone
-from datetime import timedelta
-from librarian.models import Book, Dvd, Cd, BoardGame, Borrowing
+from librarian.models import Book, Borrowing
 from borrower.models import Borrower
 
 
